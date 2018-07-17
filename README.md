@@ -1,0 +1,2 @@
+# LuckyScore
+Rate app
