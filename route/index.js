@@ -1,18 +1,18 @@
-'use strict';
-var express = require('express');
-var router = express.Router();
+'use strict'
+var express = require('express')
+var router = express.Router()
+var controller = require('../controller/controller')
 
-router.get('/', function(req,res,next){
-    res.render('index');
-});
+router.get('/', (req,res,next) => res.render('index'))
 
+router.get('/login', (req,res,next) => res.render('login'))
 
-router.get('/login', function(req,res,next){
-    res.render('login');
-});
+router.get('/forgot-pw', (req,res,next) => res.render('forgot-password'))
 
-router.get('/forgot-pw', function(req,res,next){
-    res.render('forgot-password');
-});
+router.get('/add', (req,res,next) => res.render('addUser'))
 
-module.exports = router;
+router.post('/login', controller.authenticate)
+
+router.post('/add', controller.addUser)
+
+module.exports = router

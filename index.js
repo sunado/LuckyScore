@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const config = require('./config')
 const path = require('path')
 const route = require('./route/index')
+const cookieParser = require('cookie-parser')
+const body_parser = require('body-parser')
 
 mongoose.connect(config.DATABASE,{
     socketTimeoutMS: 0,
@@ -16,7 +18,15 @@ app.set('views',path.join(__dirname,'view'))
 
 app.set('view engine','hbs')
 
+app.set('superSecret', config.SECRET);
+
 app.use(express.static(path.join(__dirname,'public')))
+
+app.use(cookieParser())
+
+app.use(body_parser.json())
+
+app.use(body_parser.urlencoded({extended: false}))
 
 app.use('/',route)
 

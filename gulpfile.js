@@ -14,17 +14,10 @@ gulp.task('serve',[], function(){
 
 gulp.task('default',function(){
     gulp.run('serve')
-    gulp.watch(['./index.js','./config.js'], function(){
-        gulp.run('serve')
-    })
-    gulp.watch('./*/*.js',function(){
-        gulp.run('serve')
-    })
-    
-    gulp.watch('./view/*.hbs',function(){
-        gulp.run('serve')
-    })
-    
+
+    gulp.watch(['./index.js','./config.js'], () => gulp.run('serve'))
+
+    gulp.watch('./**/*.js', () => gulp.run('serve'))
+
+    gulp.watch('./view/*.hbs', () => gulp.run('serve'))
 })
-
-
