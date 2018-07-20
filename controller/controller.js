@@ -1,5 +1,3 @@
-'use strict'
-
 const express = require('express')
 const app = express()
 var UserModel = require('../model/User')
@@ -7,7 +5,7 @@ var AdminModel = require('../model/Admin')
 var jwt = require('jsonwebtoken')
 var config = require('../config')
 
-exports.authenticate = function(req,res,next){
+exports.authenticate = function(req,res,next) {
     AdminModel.findOne({
         username:  req.body.username
     }, function(err,admin){
@@ -56,5 +54,72 @@ exports.addUser = function(req,res,next){
                 res.render('addUser',{success: "Success! User added. "})
             })
         }
+    })
+}
+
+exports.addUser2 = function(req,res,next){
+    UserModel.findOne({
+        id: req.body.id
+    }, function(err,user){
+        if(err){
+            res.send({error: err})
+        }
+
+        if(user){
+            res.send({error: "User exist. Please add other user."})
+        } else {
+            var n = new UserModel({
+                id: req.body.id,
+                name: req.body.name,
+                vote: []
+            })
+
+            n.save( (err) => {
+                if (err) {
+                    res.send({error: "Cannot save user. Please try again later. "})
+                }
+
+                UserModel.find().exec( (err,users) => {
+                    if (err) {
+                        res.send({error: "Cannot read database. Please try again later. "})
+                    }
+            
+                    res.render('admin/users',{users: users})
+                })
+            })
+        }
+    })
+}
+
+exports.deleteUser = function(req,res,next) {
+    //console.log("get Delete signal")
+    UserModel.deleteOne({
+        id: req.body.id
+    }, (err) => {
+        //console.log("Action executed")
+        if(err){
+            res.send(null)
+        }
+        res.send(true)
+    })
+}
+
+exports.showAllUser = function(req,res,next) {
+    UserModel.find().exec( (err,users) => {
+        if (err) {
+            res.render('showUser',{error: 'Cannot read database'})
+        }
+
+        res.render('showUser',{users: users})
+    })
+}
+
+exports.showAllUser2 = function(req,res,next) {
+    UserModel.find().exec( (err,users) => {
+        if (err) {
+            res.render('admin/users',{error: 'Cannot read database'})
+        }
+
+        res.render('admin/users',{users: users})
     })
 }

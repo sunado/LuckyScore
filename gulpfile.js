@@ -20,4 +20,6 @@ gulp.task('default',function(){
     gulp.watch('./**/*.js', () => gulp.run('serve'))
 
     gulp.watch('./view/*.hbs', () => gulp.run('serve'))
+
+    gulp.watch('./view/*/*.hbs', () => gulp.run('serve'))
 })
