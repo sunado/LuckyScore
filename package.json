@@ -16,8 +16,10 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
     "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1",
     "hbs": "^4.0.1",
     "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.2.3"
+    "mongoose": "^5.2.3",
+    "node-sass": "^4.9.2"
   }
 }
