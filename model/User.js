@@ -5,9 +5,13 @@ var Schema = mongoose.Schema
 var User = new Schema({
     id: String,
     name: String,
-    vote: [{
-        score: Number,
-        date: {type: Date, default: Date.now}
+    votes: [{
+        name: String,
+        TC1: Number,
+        TC2: Number,
+        TC3: Number,
+        TC4: Number,
+        date: {type: Date, default: Date.now()}
     }]
 })
 

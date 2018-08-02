@@ -15,9 +15,11 @@ router.get('/show', controller.showAllUser)
 
 router.get('/admin', (req,res,next) => res.render('admin/admin'))
 
-router.get('/vote', (req,res,next) => res.render('vote'))
+router.get('/vote', controller.showVoteView)
 
 router.get('/admin/users', controller.showAllUser2)
+
+router.post('/vote', controller.onVote)
 
 router.post('/login', controller.authenticate)
 

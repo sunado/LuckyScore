@@ -123,3 +123,62 @@ exports.showAllUser2 = function(req,res,next) {
         res.render('admin/users',{users: users})
     })
 }
+
+exports.showVoteView = function(req,res,next) {
+    UserModel.find().exec( (err,users) => {
+        if (err) {
+            res.render('vote',{error: 'Cannot read database'})
+        }
+
+        res.render('vote',{users: users,title: "Bình Chọn"})
+    })
+}
+
+exports.onVote = function(req,res,next) {
+    console.log(req.body.userid);
+    var sc1 = parseInt(req.body.sc1);
+    var sc2 = parseInt(req.body.sc2);
+    var sc3 = parseInt(req.body.sc3);
+    var sc4 = parseInt(req.body.sc4);
+
+    if(!validate(sc1)|| !validate(sc2) || !validate(sc3) || !validate(sc4)) {
+        res.send({error: "The data is invalid"})
+    } else {
+        UserModel.findOne({
+            id: req.body.userid
+        }, function(err,user){
+            if(err){
+                res.send({error: err})
+            }
+    
+            if(!user){
+                res.send({error: "User not exist. Please choose other user."})
+            } else {
+                user.votes.push({
+                    name: "TODO",
+                    TC1: sc1,
+                    TC2: sc2,
+                    TC3: sc3,
+                    TC4: sc4,
+                    date: Date.now()
+                })
+
+                user.save( (err) => {
+                    if(err){
+                        res.send({error: err})
+                    } else {
+                        res.send({success: "done"})
+                    }
+                });
+            }
+        })
+    }
+}
+
+function validate(num){
+    if(isNaN(num) || num > 4 || num < 1) {
+        return false;
+    } else {
+        return true;
+    }
+}
