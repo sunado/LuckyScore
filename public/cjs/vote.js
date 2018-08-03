@@ -28,8 +28,8 @@ $(document).ready(function(){
       var onRule = parseInt($(this).parent().data('value'),10);
 
       data[onRule-1]= onStar;
-      console.log(onRule);
-      console.log(data);
+//      console.log(onRule);
+//      console.log(data);
 
       for (i = 0; i < stars.length; i++) {
         $(stars[i]).removeClass('selected');
@@ -90,7 +90,7 @@ $(document).ready(function(){
   }
 
   function validation(data) {
-    var flag = true
+    var flag = true;
     data.forEach(element => {
       if(element < 1) {
         flag= false;
