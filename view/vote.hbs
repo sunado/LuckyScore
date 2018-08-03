@@ -19,99 +19,15 @@
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
       <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="/admin">ControlPanel</a>
+    <a class="navbar-brand" href="/vote">VOTE PAGE</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link c-control" href="/admin/dashboard">
-            <i class="fa fa-fw fa-dashboard"></i>
-            <span class="nav-link-text">Dashboard</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-          <a class="nav-link c-control" href="/admin/users">
-            <i class="fa fa-fw fa-area-chart"></i>
-            <span class="nav-link-text">Users</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="tables.html">
-            <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Tables</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-wrench"></i>
-            <span class="nav-link-text">Components</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseComponents">
-            <li>
-              <a href="navbar.html">Navbar</a>
-            </li>
-            <li>
-              <a href="cards.html">Cards</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-sitemap"></i>
-            <span class="nav-link-text">Menu Levels</span>
-          </a>
-          <ul class="sidenav-second-level collapse" id="collapseMulti">
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a href="#">Second Level Item</a>
-            </li>
-            <li>
-              <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
-              <ul class="sidenav-third-level collapse" id="collapseMulti2">
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-                <li>
-                  <a href="#">Third Level Item</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <ul class="navbar-nav sidenav-toggler">
-        <li class="nav-item">
-          <a class="nav-link text-center" id="sidenavToggler">
-            <i class="fa fa-fw fa-angle-left"></i>
-          </a>
-        </li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <form class="form-inline my-2 my-lg-0 mr-lg-2">
-            <div class="input-group">
-              <input class="form-control" type="text" placeholder="Search for...">
-              <span class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-          </form>
-        </li>
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">      
         <li class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-            <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+            <i class="fa fa-fw fa-user"></i>About</a>
         </li>
       </ul>
     </div>
@@ -119,10 +35,23 @@
 
   <div class="content-wrapper">
     <div class="container-fluid" id="container">
-        <div class="row">
-            <div class='col col-3'>Rule 1:</div>
+        
+        <div>
+          <h2 class="text-center"> {{title}}  </h2>
+        </div>
+        <div class="row top-buffer justify-content-center">
+           <div class="col col-sm-2 col-md-2 col-5 ">
+              <select class="select-user">
+                {{#each users as |user userId| }}
+                    <option data-value="{{user.id}}">{{user.name}}</option>
+                {{/each}}
+              </select>
+          </div> 
+        </div>
+        <div class="row top-buffer">
+            <div class='col col-md-2 col-3'>TC 1:</div>
             <div class='col rating-stars text-center '>
-                <ul class='starVote' value="1">
+                <ul class='starVote' data-value="1">
                 <li class='star' title='Poor' data-value='1'>
                     <i class='fa fa-star fa-fw'></i>
                 </li>
@@ -133,19 +62,15 @@
                     <i class='fa fa-star fa-fw'></i>
                 </li>
                 <li class='star' title='Excellent' data-value='4'>
-                    <i class='fa fa-star fa-fw'></i>
-                </li>
-                <li class='star' title='WOW!!!' data-value='5'>
                     <i class='fa fa-star fa-fw'></i>
                 </li>
                 </ul>
             </div>
         </div>
-
         <div class="row">
-            <div class='col col-3'>Rule 2:</div>
+            <div class='col col-md-2 col-3'>TC 2:</div>
             <div class='col rating-stars text-center'>
-                <ul class='starVote' value="2" >
+                <ul class='starVote' data-value="2" >
                 <li class='star' title='Poor' data-value='1'>
                     <i class='fa fa-star fa-fw'></i>
                 </li>
@@ -156,19 +81,15 @@
                     <i class='fa fa-star fa-fw'></i>
                 </li>
                 <li class='star' title='Excellent' data-value='4'>
-                    <i class='fa fa-star fa-fw'></i>
-                </li>
-                <li class='star' title='WOW!!!' data-value='5'>
                     <i class='fa fa-star fa-fw'></i>
                 </li>
                 </ul>
             </div>
         </div>
-
         <div class="row">
-            <div class='col col-3'>Rule 3:</div>
+            <div class='col col-md-2 col-3'>TC 3:</div>
             <div class='col rating-stars text-center'>
-                <ul class='starVote' value="3" >
+                <ul class='starVote' data-value="3" >
                 <li class='star' title='Poor' data-value='1'>
                     <i class='fa fa-star fa-fw'></i>
                 </li>
@@ -179,19 +100,15 @@
                     <i class='fa fa-star fa-fw'></i>
                 </li>
                 <li class='star' title='Excellent' data-value='4'>
-                    <i class='fa fa-star fa-fw'></i>
-                </li>
-                <li class='star' title='WOW!!!' data-value='5'>
                     <i class='fa fa-star fa-fw'></i>
                 </li>
                 </ul>
             </div>
         </div>
-
         <div class="row">
-            <div class='col col-3'>Rule 4:</div>
+            <div class='col col-md-2 col-3'>TC 4:</div>
             <div class='col rating-stars text-center'>
-                <ul class='starVote' value="4" >
+                <ul class='starVote' data-value="4" >
                 <li class='star' title='Poor' data-value='1'>
                     <i class='fa fa-star fa-fw'></i>
                 </li>
@@ -204,19 +121,23 @@
                 <li class='star' title='Excellent' data-value='4'>
                     <i class='fa fa-star fa-fw'></i>
                 </li>
-                <li class='star' title='WOW!!!' data-value='5'>
-                    <i class='fa fa-star fa-fw'></i>
-                </li>
                 </ul>
             </div>
+        </div>
+        <div class="row justify-content-center top-buffer">
+          <div class="col col-md-1 col-3">
+            <button type="button" class="btn btn-primary" id="sendBtn">Send</button>
+          </div>
         </div>
     </div>
 
+    <!-- Toast -->
+    <div class='error-toast' style='display:none'>Còn TC trống</div>
 
-    <footer class="sticky-footer">
+    <footer class="sticky-footer ">
       <div class="container">
         <div class="text-center">
-          <small>Copyright © sunado 2018</small>
+          <small>Copyright © Sunado 2018</small>
         </div>
       </div>
     </footer>
@@ -226,14 +147,50 @@
       <i class="fa fa-angle-up"></i>
     </a>
   </div>
+
+    <!-- Success Modal-->
+    <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-label">Bình chọn thành công!! </h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Ấn Ok để tiếp tục.</div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="button" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fail Modal-->
+    <div class="modal fade" id="fail-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label-f" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-label-f">Bình chọn thất bại! </h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Ấn Ok để thử lại</div>
+          <div class="modal-footer">
+            <button class="btn btn-danger" type="button" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <script src="vendor/datatables/jquery.dataTables.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
     <script src="cjs/vote.js"></script>
