@@ -1,9 +1,10 @@
 const express = require('express')
-const app = express()
-var UserModel = require('../model/User')
-var AdminModel = require('../model/Admin')
-var jwt = require('jsonwebtoken')
-var config = require('../config')
+
+const UserModel = require('../model/User')
+const AdminModel = require('../model/Admin')
+const VoteList = require('../model/VoteList')
+const jwt = require('jsonwebtoken')
+const config = require('../config')
 
 exports.authenticate = function(req,res,next) {
     AdminModel.findOne({
@@ -18,7 +19,7 @@ exports.authenticate = function(req,res,next) {
             res.render('login',{error: "Username not found"})
         }else {
             if (admin.passwd === req.body.passwd) {
-                var token = jwt.sign(admin.toJSON(), 'hello i"s me', {
+                var token = jwt.sign(admin.toJSON(), req.app.settings.superSecret, {
                     expiresIn: 604800 
                 })
                 
@@ -114,16 +115,6 @@ exports.showAllUser = function(req,res,next) {
     })
 }
 
-exports.showAllUser2 = function(req,res,next) {
-    UserModel.find().exec( (err,users) => {
-        if (err) {
-            res.render('admin/users',{error: 'Cannot read database'})
-        }
-
-        res.render('admin/users',{users: users})
-    })
-}
-
 exports.showVoteView = function(req,res,next) {
     UserModel.find().exec( (err,users) => {
         if (err) {
@@ -173,6 +164,26 @@ exports.onVote = function(req,res,next) {
             }
         })
     }
+}
+
+exports.adminUsers = function(req,res,next) {
+    UserModel.find().exec( (err,users) => {
+        if (err) {
+            res.render('admin/users',{error: 'Cannot read database'})
+        }
+
+        res.render('admin/users',{users: users})
+    })
+}
+
+exports.adminDashboard = function(req,res,next){
+    res.render('admin/dashboard');
+}
+
+exports.adminStatus = function(req,res,next) {   
+
+    //console.log(req.app.settings.superSecret)
+    res.render('admin/status',{onStop: " "})
 }
 
 function validate(num){

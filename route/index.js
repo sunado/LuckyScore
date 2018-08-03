@@ -15,9 +15,13 @@ router.get('/show', controller.showAllUser)
 
 router.get('/admin', (req,res,next) => res.render('admin/admin'))
 
-router.get('/vote', controller.showVoteView)
+router.get('/admin/users', controller.adminUsers)
 
-router.get('/admin/users', controller.showAllUser2)
+router.get('/admin/dashboard', controller.adminDashboard)
+
+router.get('/admin/status',controller.adminStatus)
+
+router.get('/vote', controller.showVoteView)
 
 router.post('/vote', controller.onVote)
 
@@ -30,3 +34,4 @@ router.post('/addUser', controller.addUser2)
 router.post('/deleteUser', controller.deleteUser)
 
 module.exports = router
+
