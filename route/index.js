@@ -15,9 +15,13 @@ router.get('/show', controller.showAllUser)
 
 router.get('/admin', (req,res,next) => res.render('admin/admin'))
 
-router.get('/vote', controller.showVoteView)
+router.get('/admin/users', controller.adminUsers)
 
-router.get('/admin/users', controller.showAllUser2)
+router.get('/admin/dashboard', controller.adminDashboard)
+
+router.get('/admin/status',controller.adminStatus)
+
+router.get('/vote', controller.showVoteView)
 
 router.post('/vote', controller.onVote)
 
@@ -29,4 +33,16 @@ router.post('/addUser', controller.addUser2)
 
 router.post('/deleteUser', controller.deleteUser)
 
+router.post('/admin/status',controller.adminUpdateStatus)
+
+//create admin
+
+router.post('/dhdcfklliljv3470dj',controller.adminCreate)
+
+router.get('/toilatoikhongthichdaunhe', (req,res,next) => res.render('createadmin'))
+
+//404
+router.get('*', (req,res,next) => res.render('404'))
+router.post('*', (req,res,next) => res.render('404'))
 module.exports = router
+

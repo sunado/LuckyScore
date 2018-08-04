@@ -1,6 +1,11 @@
+//global store current view name
+var subView
+
 $(document).ready(function(){
+
+    //Delete User request
     var trs = null
-    $('.container-fluid').on('click','.btn-danger', () => {
+    $('.container-fluid').on('click','.removeUsers', () => {
         console.log(this.activeElement)
         trs = this.activeElement
         $.post('/deleteUser',{
@@ -13,6 +18,8 @@ $(document).ready(function(){
             }
         })
     })
+
+    //Add User request
     $('.submitBtn').click( () => {
         nid = $('#id').val()
         nname = $('#name').val()
@@ -28,20 +35,59 @@ $(document).ready(function(){
                     $('#container').empty()
                     $('#container').append(res)
                     $('.table').DataTable().draw
-
                 }
             })
         }
     })
 
+    //Ajax load view
     $('.c-control').click(function(){
-        
-        $.get($(this).attr('href')).done( (res) =>{
-            $('#container').empty()
-            $('#container').append(res)
-
-            $('.table').DataTable()
-        })
+        if(subView !== $(this).data('value')){
+            var control = this
+            $.get($(this).attr('href')).done( (res) =>{
+                $('#container').empty()
+                $('#container').append(res)
+                $('.table').DataTable()
+                subView = $(control).data('value') /*** */
+            })
+        }
         return false
     })
+
+    $('.container-fluid').on('click','.change-status', () => {
+        var status = $('#change-status').data('value');
+        console.log("get "+ status)
+        if( status == "Cancel") {
+            $.post("/admin/status",{
+                name: $('#names').val(),
+                vote_state: "stop"
+            }).done( (res) =>{
+                $('#container').empty()
+                $('#container').append(res)
+            })
+        } else {
+            $.post("/admin/status",{
+                name: $('#names').val(),
+                vote_state: "run"
+            }).done( (res) =>{
+                $('#container').empty()
+                $('#container').append(res)
+            })
+    }
+    })
+    
 });
+// Ajax done
+$(document).ajaxStop( () => {
+    switch (subView) {
+        case "dashboard":
+            //console.log("d")
+            break;
+        case "users":
+            //console.log("u")
+            break;
+        case "status":
+            //console.log("s")
+            break;
+    }
+})

@@ -3,7 +3,6 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
 var Admin = new Schema({
-    id: String,
     username: String,
     passwd: String
 })

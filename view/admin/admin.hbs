@@ -28,19 +28,25 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link c-control" href="/admin/dashboard">
+          <a class="nav-link c-control" href="/admin/dashboard" data-value="dashboard">
             <i class="fa fa-fw fa-dashboard"></i>
             <span class="nav-link-text">Dashboard</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-          <a class="nav-link c-control" href="/admin/users">
-            <i class="fa fa-fw fa-area-chart"></i>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Status">
+          <a class="nav-link c-control" href="/admin/status" data-value="status">
+            <i class="fa fa-fw fa-bug"></i>
+            <span class="nav-link-text">Status</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
+          <a class="nav-link c-control" href="/admin/users" data-value="users">
+            <i class="fa fa-fw fa-users"></i>
             <span class="nav-link-text">Users</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="tables.html">
+          <a class="nav-link" href="/admin" data-value="tables">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">Tables</span>
           </a>
@@ -162,7 +168,7 @@
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="/login">Logout</a>
           </div>
         </div>
       </div>
