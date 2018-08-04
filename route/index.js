@@ -33,6 +33,8 @@ router.post('/addUser', controller.addUser2)
 
 router.post('/deleteUser', controller.deleteUser)
 
+router.post('/admin/status',controller.adminUpdateStatus)
+
 //create admin
 
 router.post('/dhdcfklliljv3470dj',controller.adminCreate)

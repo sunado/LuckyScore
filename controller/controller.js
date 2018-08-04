@@ -15,7 +15,7 @@ exports.authenticate = function(req,res,next) {
         }
 
         if(!admin){
-            console.log("Cannot find admin")
+            //console.log("Cannot find admin")
             res.render('login',{error: "Username not found"})
         }else {
             if (admin.passwd === req.body.passwd) {
@@ -181,9 +181,78 @@ exports.adminDashboard = function(req,res,next){
 }
 
 exports.adminStatus = function(req,res,next) {   
+    var query = VoteList.find().limit(1).sort({$natural:-1})
+    query.exec( (err,vote) => {
+        if(err){
+            console.log(err)
+            res.render('admin/status',{onStop: " "})
+        } else {
+            if(vote.length == 0){
+                //console.log("1")
+                res.render('admin/status',{onStop: " "})
+            } else if( vote[0].status == "run"){
+                //console.log("2")
+                res.render('admin/status', {onVote: vote[0].name})
+            } else {
+                //console.log("3")
+                res.render('admin/status',{onStop: " "})
+            }
+        }
+    })
+    
+}
 
-    //console.log(req.app.settings.superSecret)
-    res.render('admin/status',{onStop: " "})
+exports.adminUpdateStatus = function(req,res,next) {
+    var query = VoteList.find().limit(1).sort({$natural:-1})
+    query.exec( (err,votes) => {
+        if (err) {
+            console.log(err)
+            res.render('admin/status', {error: err})
+        } else {
+            //console.log(votes)
+            if(votes.length == 0){
+                voteNew = new VoteList({
+                    id: 1,
+                    status: "run",
+                    name: req.body.name,
+                    startDate: Date.now(),
+                    dueDate: Date.now(),
+                })
+                voteNew.save( (err) => {
+                    if(err) {
+                        res.render('admin/status',{error: err})
+                    } else {
+                        res.render('admin/status',{onVote: req.body.name})
+                    }
+                })
+            } else if(votes[0].status == "stop"){
+                voteNew = new VoteList({
+                    id: votes[0].id+1,
+                    status: "run",
+                    name: req.body.name,
+                    startDate: Date.now(),
+                    dueDate: Date.now(),
+                })
+                voteNew.save( (err) => {
+                    if(err) {
+                        res.render('admin/status',{error: err})
+                    } else {
+                        res.render('admin/status',{onVote: req.body.name})
+                    }
+                })
+            } else {
+                votes[0].dueDate = Date.now()
+                votes[0].status = "stop"
+                votes[0].save( (err) => {
+                    if(err) {
+                        res.render('admin/status',{error: err})
+                    } else {
+                        res.render('admin/status',{onStop: " "})
+                    }
+                })
+            }
+        }
+    })
 }
 
 exports.adminCreate = function(req,res,next) {

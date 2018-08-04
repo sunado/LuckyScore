@@ -5,7 +5,7 @@ $(document).ready(function(){
 
     //Delete User request
     var trs = null
-    $('.container-fluid').on('click','.btn-danger', () => {
+    $('.container-fluid').on('click','.removeUsers', () => {
         console.log(this.activeElement)
         trs = this.activeElement
         $.post('/deleteUser',{
@@ -54,39 +54,40 @@ $(document).ready(function(){
         return false
     })
 
-    // //default load dashboard
-    // $.get('/admin/dasbhoard').done ( (res) => {
-    //     $('#container').empty()
-    //     $('#container').append(res)
-    //     $('.table').DataTable()
-    //     subView = "dashboard"
-    // })
-    
-    //send change status
     $('.container-fluid').on('click','.change-status', () => {
-        var status = $('.change-status').data('value');
+        var status = $('#change-status').data('value');
+        console.log("get "+ status)
         if( status == "Cancel") {
-            alert("Cancel")
+            $.post("/admin/status",{
+                name: $('#names').val(),
+                vote_state: "stop"
+            }).done( (res) =>{
+                $('#container').empty()
+                $('#container').append(res)
+            })
         } else {
-            alert("start")
-        }
+            $.post("/admin/status",{
+                name: $('#names').val(),
+                vote_state: "run"
+            }).done( (res) =>{
+                $('#container').empty()
+                $('#container').append(res)
+            })
+    }
     })
+    
 });
 // Ajax done
 $(document).ajaxStop( () => {
     switch (subView) {
         case "dashboard":
-            console.log("d")
+            //console.log("d")
             break;
         case "users":
-            console.log("u")
+            //console.log("u")
             break;
         case "status":
-            console.log("s")
+            //console.log("s")
             break;
     }
 })
-
-function setupStatus(){
-    
-}
