@@ -186,6 +186,33 @@ exports.adminStatus = function(req,res,next) {
     res.render('admin/status',{onStop: " "})
 }
 
+exports.adminCreate = function(req,res,next) {
+    AdminModel.findOne({
+        id: req.body.username
+    }, function(err,user){
+        if(err){
+            res.render('createadmin',{error: err})
+        }
+
+        if(user){
+            res.render('createadmin',{error: "User exist. Please add other user."})
+        } else {
+            var n = new AdminModel({
+                username: req.body.username,
+                passwd: req.body.passwd
+            })
+
+            n.save( (err) => {
+                if (err) {
+                    res.render('createadmin',{error: "Cannot save user. Please try again later. "})
+                }
+
+                res.render('createadmin',{success: "Success! Addmin added. "})
+            })
+        }
+    })
+}
+
 function validate(num){
     if(isNaN(num) || num > 4 || num < 1) {
         return false;

@@ -54,13 +54,13 @@ $(document).ready(function(){
         return false
     })
 
-    //default load dashboard
-    $.get('/admin/dasbhoard').done ( (res) => {
-        $('#container').empty()
-        $('#container').append(res)
-        $('.table').DataTable()
-        subView = "dashboard"
-    })
+    // //default load dashboard
+    // $.get('/admin/dasbhoard').done ( (res) => {
+    //     $('#container').empty()
+    //     $('#container').append(res)
+    //     $('.table').DataTable()
+    //     subView = "dashboard"
+    // })
     
     //send change status
     $('.container-fluid').on('click','.change-status', () => {

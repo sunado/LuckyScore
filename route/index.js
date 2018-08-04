@@ -33,5 +33,14 @@ router.post('/addUser', controller.addUser2)
 
 router.post('/deleteUser', controller.deleteUser)
 
+//create admin
+
+router.post('/dhdcfklliljv3470dj',controller.adminCreate)
+
+router.get('/toilatoikhongthichdaunhe', (req,res,next) => res.render('createadmin'))
+
+//404
+router.get('*', (req,res,next) => res.render('404'))
+router.post('*', (req,res,next) => res.render('404'))
 module.exports = router
 
