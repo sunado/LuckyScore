@@ -116,12 +116,22 @@ exports.showAllUser = function(req,res,next) {
 }
 
 exports.showVoteView = function(req,res,next) {
-    UserModel.find().exec( (err,users) => {
-        if (err) {
-            res.render('vote',{error: 'Cannot read database'})
-        }
+    var query = VoteList.find().limit(1).sort({$natural:-1})
 
-        res.render('vote',{users: users,title: "Bình Chọn"})
+    query.exec( (err,votes) => {
+        if (err) {
+            res.render('404')
+        } else if(votes.length == 0 || votes[0].status == "stop"){
+            res.render('404')
+        } else {
+            UserModel.find().exec( (err,users) => {
+                if (err) {
+                    res.render('vote',{error: 'Cannot read database'})
+                }
+        
+                res.render('vote',{users: users,title: "Bình Chọn " + votes.name})
+            })
+        }
     })
 }
 
@@ -145,22 +155,30 @@ exports.onVote = function(req,res,next) {
             if(!user){
                 res.send({error: "User not exist. Please choose other user."})
             } else {
-                user.votes.push({
-                    name: "TODO",
-                    TC1: sc1,
-                    TC2: sc2,
-                    TC3: sc3,
-                    TC4: sc4,
-                    date: Date.now()
-                })
-
-                user.save( (err) => {
-                    if(err){
-                        res.send({error: err})
+                var query = VoteList.find().limit(1).sort({$natural:-1})
+                query.exec( (err,votes) => {
+                    if(err || votes.length == 0) {
+                        res.send({error: "Cannot read database"})
                     } else {
-                        res.send({success: "done"})
+                        user.votes.push({
+                            name: votes[0].id,
+                            TC1: sc1,
+                            TC2: sc2,
+                            TC3: sc3,
+                            TC4: sc4,
+                            date: Date.now()
+                        })
+        
+                        user.save( (err) => {
+                            if(err){
+                                res.send({error: err})
+                            } else {
+                                res.send({success: "done"})
+                            }
+                        });
                     }
-                });
+                })
+               
             }
         })
     }
@@ -177,7 +195,37 @@ exports.adminUsers = function(req,res,next) {
 }
 
 exports.adminDashboard = function(req,res,next){
-    res.render('admin/dashboard');
+    var query = VoteList.find().limit(1).sort({$natural:-1})
+    query.exec( (err,vote_now) => {
+        if(err){
+            //console.log(err)
+            res.render('admin/blank',{message: err})
+        } else if(vote_now.length == 0){
+            res.render('admin/blank',{message: "Nodata"})
+        } else {
+            UserModel.find({votes: {$elemMatch: {name: vote_now[0].id}}}).exec ( (err,result) => {
+                if(err){
+                    res.render('admin/blank',{message: "Database error"})
+                } else {
+                    var user_votes = []
+                    result.forEach(element => {
+                        const vote = element.votes[element.votes.length-1]
+                        const user_vote = {
+                            id: element.id,
+                            TC1: vote.TC1,
+                            TC2: vote.TC2,
+                            TC3: vote.TC3,
+                            TC4: vote.TC4
+                        }
+                        user_votes.push(user_vote)
+                    })
+                    
+                    res.render('admin/dashboard',{title: vote_now[0].name, users: user_votes})
+                }
+            })
+        }
+
+    })
 }
 
 exports.adminStatus = function(req,res,next) {   
