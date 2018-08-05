@@ -14,7 +14,8 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
   <link href="ccss/vote.css" rel="stylesheet">
-  
+  <link href="vendor/semantic/transition.min.css" rel="stylesheet">
+  <link href="vendor/semantic/dropdown.min.css" rel="stylesheet">
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top" >
@@ -36,18 +37,21 @@
 
   <div class="content-wrapper">
     <div class="container-fluid" id="container">
-        
         <div>
           <h2 class="text-center"> {{title}}  </h2>
         </div>
         <div class="row top-buffer justify-content-center">
-           <div class="col col-sm-2 col-md-2 col-5 ">
-              <select class="select-user">
+          <div class="ui fluid search selection dropdown">
+              <input type="hidden" name="user" id="user-id">
+              <i class="dropdown icon"></i>
+              <div class="default text">Bạn là ai ?</div>
+              <div class="menu">
                 {{#each users as |user userId| }}
-                    <option data-value="{{user.id}}">{{user.name}}</option>
+                    {{!-- <option data-value="{{user.id}}">{{user.name}}</option> --}}
+                    <div class="item" data-value="{{user.id}}">{{user.name}}</div>
                 {{/each}}
-              </select>
-          </div> 
+              </div>
+          </div>
         </div>
         <div class="row top-buffer">
             <div class='col col-md-2 col-3'>TC 1:</div>
@@ -199,6 +203,8 @@
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
+    <script src="vendor/semantic/transition.min.js"></script>
+    <script src="vendor/semantic/dropdown.min.js"></script>
     <script src="js/sb-admin.min.js"></script>
     <script src="cjs/vote.js"></script>
 </body>

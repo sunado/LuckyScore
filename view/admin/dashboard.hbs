@@ -5,45 +5,106 @@
         </li>
     </ol>
 
-    <div class="card mb-3">
-        <div class="card-header">
-            <i class="fa fa-table"></i> Vote Result {{title}}
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                    <th class="text-center" >ID</th>
-                    <th class="text-center">TC1</th>
-                    <th class="text-center">TC2</th>
-                    <th class="text-center">TC3</th>
-                    <th class="text-center">TC4</th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                    <th class="text-center">ID</th>
-                    <th class="text-center">TC1</th>
-                    <th class="text-center">TC2</th>
-                    <th class="text-center">TC3</th>
-                    <th class="text-center">TC4</th>
-                </tr>
-                </tfoot>
-                <tbody>
+    <div class="row justify-content-center">
+        <div class="col col-lg-10 ">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-table"></i> Vote Result {{title}}
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th class="text-center" >ID</th>
+                            <th class="text-center">TC1</th>
+                            <th class="text-center">TC2</th>
+                            <th class="text-center">TC3</th>
+                            <th class="text-center">TC4</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">TC1</th>
+                            <th class="text-center">TC2</th>
+                            <th class="text-center">TC3</th>
+                            <th class="text-center">TC4</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
 
-                {{#each users as |user userId| }}
-                    <tr >
-                        <td>{{user.id}}</td>
-                        <td>{{user.TC1}}</td>
-                        <td>{{user.TC2}}</td>
-                        <td>{{user.TC3}}</td>
-                        <td>{{user.TC4}}</td>
-                    </tr>
-                {{/each}}
-                </tbody>
-            </table>
+                        {{#each users as |user userId| }}
+                            <tr >
+                                <td>{{user.id}}</td>
+                                <td>{{user.TC1}}</td>
+                                <td>{{user.TC2}}</td>
+                                <td>{{user.TC3}}</td>
+                                <td>{{user.TC4}}</td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
     </div>
+
+    <div class="row justify-content-center">
+        <div class="col col-lg-6 ">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar"></i>
+                    TC1 Bar Chart {{title}}</div>
+                <div class="card-body">
+                    <canvas id="barchart1" width="100%" height="50"></canvas>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col col-lg-6 ">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar"></i>
+                   TC2  Bar Chart {{title}}</div>
+                <div class="card-body">
+                    <canvas id="barchart2" width="100%" height="50"></canvas>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col col-lg-6 ">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar"></i>
+                    TC3 Bar Chart {{title}}</div>
+                <div class="card-body">
+                    <canvas id="barchart3" width="100%" height="50"></canvas>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col col-lg-6 ">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar"></i>
+                    TC4 Bar Chart {{title}}</div>
+                <div class="card-body">
+                    <canvas id="barchart4" width="100%" height="50"></canvas>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+        </div>
+    </div>
+    

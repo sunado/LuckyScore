@@ -6,6 +6,38 @@ const VoteList = require('../model/VoteList')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
 
+exports.filter = function (req, res, next) {
+    if (req.url == '/login' || req.url == '/vote' || req.url == '/dhdcfklliljv3470dj' || req.url == '/toilatoikhongthichdaunhe') {
+        next();
+    } else {
+        // check header or url parameters or post parameters for token
+        var token = req.body.token || req.query.token || req.headers['x-access-token'];
+        if (req.cookies) {
+            //console.log(req.cookies)
+            token = req.cookies.token || token
+        }
+        // decode token
+        if (token) {
+            // verifies secret and checks exp
+            jwt.verify(token, req.app.settings.superSecret, function (err, decoded) {
+                if (err) {
+                    return res.redirect('login');
+                } else {
+                    // if everything is good, save to request for use in other routes
+                    //console.log("Token valid");
+                    req.decoded = decoded;
+                    next();
+                }
+            });
+        } else {
+            // if there is no token
+            // return an error
+            return res.redirect('login');
+
+        }
+    }
+};
+
 exports.authenticate = function(req,res,next) {
     AdminModel.findOne({
         username:  req.body.username
@@ -28,6 +60,11 @@ exports.authenticate = function(req,res,next) {
             }
         }
     })
+}
+
+exports.logout = function(req,res,next) {
+    res.clearCookie('token');
+    res.redirect('login')
 }
 
 exports.addUser = function(req,res,next){
@@ -122,14 +159,14 @@ exports.showVoteView = function(req,res,next) {
         if (err) {
             res.render('404')
         } else if(votes.length == 0 || votes[0].status == "stop"){
-            res.render('404')
+            res.render('404') 
         } else {
             UserModel.find().exec( (err,users) => {
                 if (err) {
                     res.render('vote',{error: 'Cannot read database'})
                 }
         
-                res.render('vote',{users: users,title: "Bình Chọn " + votes.name})
+                res.render('vote',{users: users,title: "Bình Chọn " + votes[0].name})
             })
         }
     })
@@ -228,6 +265,40 @@ exports.adminDashboard = function(req,res,next){
     })
 }
 
+exports.adminGetVoteData = function(req,res,next) {
+    var query = VoteList.find().limit(1).sort({$natural:-1})
+    query.exec( (err,vote_now) => {
+        if(err || vote_now.length == 0) {
+            console.log(err)
+            res.json({})
+        } else {
+            UserModel.find({votes: {$elemMatch: {name: vote_now[0].id}}}).exec ( (err,result) => {
+                if(err) {
+                    console.log(err)
+                    res.json({})
+                } else {
+                    var vote_data = {}
+                    vote_data.TC1 = [0,0,0,0]
+                    vote_data.TC2 = [0,0,0,0]
+                    vote_data.TC3 = [0,0,0,0]
+                    vote_data.TC4 = [0,0,0,0]
+
+                    result.forEach(element => {
+                        //console.log(element)
+                        const vote= element.votes[element.votes.length - 1]
+                        vote_data.TC1[vote.TC1-1] +=1
+                        vote_data.TC2[vote.TC2-1] +=1
+                        vote_data.TC3[vote.TC3-1] +=1
+                        vote_data.TC4[vote.TC3-1] +=1
+                    });
+
+                    res.json(vote_data)
+                }
+            })
+        }
+    })
+}
+
 exports.adminStatus = function(req,res,next) {   
     var query = VoteList.find().limit(1).sort({$natural:-1})
     query.exec( (err,vote) => {
@@ -248,6 +319,15 @@ exports.adminStatus = function(req,res,next) {
         }
     })
     
+} 
+
+exports.demo =  async(req, res, next) => {
+    try {
+        let votes = await VoteList.find().limit(1).sort({$natural:-1});
+    } catch(error) {
+        
+    }
+
 }
 
 exports.adminUpdateStatus = function(req,res,next) {
