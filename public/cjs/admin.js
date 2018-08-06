@@ -77,6 +77,12 @@ $(document).ready(function(){
         }
     })
     
+    $.get('admin/dashboard').done( (res) =>{
+        $('#container').empty()
+        $('#container').append(res)
+        $('.table').DataTable()
+        subView = 'dashboard' /*** */
+    })
 
 });
 
@@ -123,7 +129,7 @@ $(document).ajaxStop( () => {
                                 yAxes: [{
                                     ticks: {
                                     min: 0,
-                                    max: 40,
+                                    max: 25,
                                     maxTicksLimit: 5
                                     },
                                     gridLines: {

@@ -16,6 +16,55 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
+                            <th class="text-center">TC</th>
+                            <th class="text-center">A</th>
+                            <th class="text-center">B</th>
+                            <th class="text-center">C</th>
+                            <th class="text-center">D</th>
+                            <th class="text-center">Sum</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        {{!-- <tr>
+                            <th class="text-center">TC</th>
+                            <th class="text-center">A</th>
+                            <th class="text-center">B</th>
+                            <th class="text-center">C</th>
+                            <th class="text-center">Avg</th>
+                        </tr> --}}
+                        </tfoot>
+                        <tbody>
+
+                        {{#each dats as |dat datID| }}
+                            <tr >
+                                <td>{{dat.name}}</td>
+                                <td>{{dat.A}}</td>
+                                <td>{{dat.B}}</td>
+                                <td>{{dat.C}}</td>
+                                <td>{{dat.D}}</td>
+                                <td>{{dat.Sum}}</td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col col-lg-10 ">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-table"></i> Vote Result {{title}}
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
                             <th class="text-center" >ID</th>
                             <th class="text-center">TC1</th>
                             <th class="text-center">TC2</th>
@@ -51,7 +100,7 @@
             </div>
         </div>
     </div>
-
+    
     <div class="row justify-content-center">
         <div class="col col-lg-6 ">
             <div class="card mb-3">

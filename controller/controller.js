@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 const config = require('../config')
 
 exports.filter = function (req, res, next) {
-    if (req.url == '/login' || req.url == '/vote' || req.url == '/dhdcfklliljv3470dj' || req.url == '/toilatoikhongthichdaunhe') {
+    if (req.url == '/login' || req.url == '/vote' || req.url == '/dhdcfklliljv3470dj' || req.url == '/toilatoikhongthichdaunhe' || req.url == '/') {
         next();
     } else {
         // check header or url parameters or post parameters for token
@@ -56,7 +56,7 @@ exports.authenticate = function(req,res,next) {
                 })
                 
                 res.cookie('token', token, { maxAge: 900000, httpOnly: true });
-                res.render('index')
+                res.render('admin/admin')
             }
         }
     })
@@ -245,23 +245,79 @@ exports.adminDashboard = function(req,res,next){
                     res.render('admin/blank',{message: "Database error"})
                 } else {
                     var user_votes = []
+                    var stastic = [
+                        {name: "TC1", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+                        {name: "TC2", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+                        {name: "TC3", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+                        {name: "TC4", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+                        {name: "Avg: ", A: 0, B: 0, C: 0, D: 0, Sum: 0}
+                    ]
                     result.forEach(element => {
                         const vote = element.votes[element.votes.length-1]
                         const user_vote = {
                             id: element.id,
-                            TC1: vote.TC1,
-                            TC2: vote.TC2,
-                            TC3: vote.TC3,
-                            TC4: vote.TC4
+                            TC1: score2String(vote.TC1),
+                            TC2: score2String(vote.TC2),
+                            TC3: score2String(vote.TC3),
+                            TC4: score2String(vote.TC4)
                         }
+                        
                         user_votes.push(user_vote)
+
+                        countHelper(0,vote.TC1,stastic)
+                        countHelper(1,vote.TC2,stastic)
+                        countHelper(2,vote.TC3,stastic)
+                        countHelper(3,vote.TC4,stastic)
+
                     })
                     
-                    res.render('admin/dashboard',{title: vote_now[0].name, users: user_votes})
+                    calHelper(stastic)
+
+                    res.render('admin/dashboard',{title: vote_now[0].name, users: user_votes, dats: stastic})
                 }
             })
         }
 
+    })
+}
+
+function score2String(score) {
+    switch(score) {
+        case 4: return 'A'
+        case 3: return 'B'
+        case 2: return 'C'
+        case 1: return 'D'
+        default: return '?'
+    }
+}
+
+function countHelper(index, score, stastic) {
+    switch(score) {
+        case 4:
+            stastic[index].A = stastic[index].A + 1
+            break
+        case 3:
+            stastic[index].B = stastic[index].B + 1
+            break
+        case 2: 
+            stastic[index].C = stastic[index].C + 1
+            break
+        case 1: 
+            stastic[index].D = stastic[index].D + 1
+            break
+    }
+}
+
+function calHelper(stastic) {
+    const weights = [30 ,35 ,20 ,15]
+    stastic[4].A = (stastic[0].A*weights[0] + stastic[1].A*weights[1] + stastic[2].A*weights[2] + stastic[3].A*weights[3])/100 
+    stastic[4].B = (stastic[0].B*weights[0] + stastic[1].B*weights[1] + stastic[2].B*weights[2] + stastic[3].B*weights[3])/100 
+    stastic[4].C = (stastic[0].C*weights[0] + stastic[1].C*weights[1] + stastic[2].C*weights[2] + stastic[3].C*weights[3])/100 
+    stastic[4].D = (stastic[0].D*weights[0] + stastic[1].D*weights[1] + stastic[2].D*weights[2] + stastic[3].D*weights[3])/100 
+
+
+    stastic.forEach(element => {
+        element.Sum = element.A*4 + element.B*3 + element.C*2 + element.D
     })
 }
 

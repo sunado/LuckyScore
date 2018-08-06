@@ -5,7 +5,8 @@ var controller = require('../controller/controller')
 
 router.use(controller.filter);
 
-router.get('/', (req,res,next) => res.render('index'))
+router.get('/', controller.showVoteView)
+// router.get('/', (req,res,next) => res.render('index'))
 
 router.get('/login', (req,res,next) => res.render('login'))
 
@@ -24,7 +25,7 @@ router.get('/admin/dashboard', controller.adminDashboard)
 
 router.get('/admin/status',controller.adminStatus)
 
-router.get('/vote', controller.showVoteView)
+
 
 router.get('/admin/votedata', controller.adminGetVoteData)
 
