@@ -246,11 +246,11 @@ exports.adminDashboard = function(req,res,next){
                 } else {
                     var user_votes = []
                     var stastic = [
-                        {name: "TC1", A: 0, B: 0, C: 0, D: 0, Sum: ''},
-                        {name: "TC2", A: 0, B: 0, C: 0, D: 0, Sum: ''},
-                        {name: "TC3", A: 0, B: 0, C: 0, D: 0, Sum: ''},
-                        {name: "TC4", A: 0, B: 0, C: 0, D: 0, Sum: ''},
-                        {name: "Avg: ", A: 0, B: 0, C: 0, D: 0, Sum: 0}
+                        {name: "Trình bày (30%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+                        {name: "Nội dung (35%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+                        {name: "Hình thức (20%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+                        {name: "Phản biện (15%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+                        {name: "W Trung bình:", A: 0, B: 0, C: 0, D: 0, Sum: 0}
                     ]
                     result.forEach(element => {
                         const vote = element.votes[element.votes.length-1]
