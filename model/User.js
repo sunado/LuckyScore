@@ -11,6 +11,7 @@ var User = new Schema({
         TC2: Number,
         TC3: Number,
         TC4: Number,
+        count: Number,
         date: {type: Date, default: Date.now()}
     }]
 })

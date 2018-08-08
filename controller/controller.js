@@ -197,14 +197,27 @@ exports.onVote = function(req,res,next) {
                     if(err || votes.length == 0) {
                         res.send({error: "Cannot read database"})
                     } else {
-                        user.votes.push({
-                            name: votes[0].id,
-                            TC1: sc1,
-                            TC2: sc2,
-                            TC3: sc3,
-                            TC4: sc4,
-                            date: Date.now()
-                        })
+                        if( user.votes.length > 0 && user.votes[user.votes.length-1].name == votes[0].id ){
+                            //TODO
+                            var lastVote = user.votes[user.votes.length-1]
+                            lastVote.TC1 = sc1
+                            lastVote.TC2 = sc2
+                            lastVote.TC3 = sc3
+                            lastVote.TC4 = sc4
+                            lastVote.count = lastVote.count + 1
+                            lastVote.data = Date.now()
+                        } else {
+                            user.votes.push({
+                                name: votes[0].id,
+                                TC1: sc1,
+                                TC2: sc2,
+                                TC3: sc3,
+                                TC4: sc4,
+                                count: 1,
+                                date: Date.now()
+                            })
+                        }
+
         
                         user.save( (err) => {
                             if(err){
@@ -259,7 +272,8 @@ exports.adminDashboard = function(req,res,next){
                             TC1: score2String(vote.TC1),
                             TC2: score2String(vote.TC2),
                             TC3: score2String(vote.TC3),
-                            TC4: score2String(vote.TC4)
+                            TC4: score2String(vote.TC4),
+                            count: vote.count
                         }
                         
                         user_votes.push(user_vote)
