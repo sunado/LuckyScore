@@ -14,7 +14,8 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
   <link href="ccss/vote.css" rel="stylesheet">
-  
+  <link href="vendor/semantic/transition.min.css" rel="stylesheet">
+  <link href="vendor/semantic/dropdown.min.css" rel="stylesheet">
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top" >
@@ -36,21 +37,24 @@
 
   <div class="content-wrapper">
     <div class="container-fluid" id="container">
-        
         <div>
           <h2 class="text-center"> {{title}}  </h2>
         </div>
         <div class="row top-buffer justify-content-center">
-           <div class="col col-sm-2 col-md-2 col-5 ">
-              <select class="select-user">
+          <div class="ui fluid search selection dropdown">
+              <input type="hidden" name="user" id="user-id">
+              <i class="dropdown icon"></i>
+              <div class="default text">Bạn là ai ?</div>
+              <div class="menu">
                 {{#each users as |user userId| }}
-                    <option data-value="{{user.id}}">{{user.name}}</option>
+                    {{!-- <option data-value="{{user.id}}">{{user.name}}</option> --}}
+                    <div class="item" data-value="{{user.id}}">{{user.name}}</div>
                 {{/each}}
-              </select>
-          </div> 
+              </div>
+          </div>
         </div>
         <div class="row top-buffer">
-            <div class='col col-md-2 col-3'>TC 1:</div>
+            <div class='col col-md-2 col-4'>Trình bày:</div>
             <div class='col rating-stars text-center '>
                 <ul class='starVote' data-value="1">
                 <li class='star' title='Poor' data-value='1'>
@@ -69,7 +73,7 @@
             </div>
         </div>
         <div class="row">
-            <div class='col col-md-2 col-3'>TC 2:</div>
+            <div class='col col-md-2 col-4'>Nội dung:</div>
             <div class='col rating-stars text-center'>
                 <ul class='starVote' data-value="2" >
                 <li class='star' title='Poor' data-value='1'>
@@ -88,7 +92,7 @@
             </div>
         </div>
         <div class="row">
-            <div class='col col-md-2 col-3'>TC 3:</div>
+            <div class='col col-md-2 col-4'>Hình thức:</div>
             <div class='col rating-stars text-center'>
                 <ul class='starVote' data-value="3" >
                 <li class='star' title='Poor' data-value='1'>
@@ -107,7 +111,7 @@
             </div>
         </div>
         <div class="row">
-            <div class='col col-md-2 col-3'>TC 4:</div>
+            <div class='col col-md-2 col-4'>Phản biện:</div>
             <div class='col rating-stars text-center'>
                 <ul class='starVote' data-value="4" >
                 <li class='star' title='Poor' data-value='1'>
@@ -131,7 +135,7 @@
           </div>
         </div>
         <div class="row justify-content-center ">
-          <div class="col col-md-1 col-3">
+          <div class="col col-md-1 col-2">
             <button type="button" class="btn btn-primary" id="sendBtn">Send</button>
           </div>
         </div>
@@ -199,6 +203,8 @@
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
+    <script src="vendor/semantic/transition.min.js"></script>
+    <script src="vendor/semantic/dropdown.min.js"></script>
     <script src="js/sb-admin.min.js"></script>
     <script src="cjs/vote.js"></script>
 </body>

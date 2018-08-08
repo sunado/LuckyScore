@@ -55,8 +55,7 @@ $(document).ready(function(){
     $("#sendBtn").on('click', () =>{
       
       if(validation(data)){
-        var userid = $(".select-user").find(":selected").data('value');
-
+        var userid = $("#user-id").val();
         $.post('/vote',{
           userid: userid,
           sc1: data[0],
@@ -81,6 +80,8 @@ $(document).ready(function(){
       data = [0,0,0,0];
       $("li.star").removeClass('selected');
     })
+
+    $('.ui.dropdown').dropdown();
   });
   
   
