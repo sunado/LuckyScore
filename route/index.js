@@ -6,16 +6,10 @@ var controller = require('../controller/controller')
 router.use(controller.filter);
 
 router.get('/', controller.showVoteView)
-// router.get('/', (req,res,next) => res.render('index'))
 
 router.get('/login', (req,res,next) => res.render('login'))
 
 router.get('/logout', controller.logout)
-//router.get('/forgot-pw', (req,res,next) => res.render('forgot-password'))
-
-//router.get('/add', (req,res,next) => res.render('addUser'))
-
-//router.get('/show', controller.showAllUser)
 
 router.get('/admin', (req,res,next) => res.render('admin/admin'))
 
@@ -25,17 +19,13 @@ router.get('/admin/dashboard', controller.adminDashboard)
 
 router.get('/admin/status',controller.adminStatus)
 
-
-
 router.get('/admin/votedata', controller.adminGetVoteData)
 
 router.post('/vote', controller.onVote)
 
 router.post('/login', controller.authenticate)
 
-router.post('/add', controller.addUser)
-
-router.post('/addUser', controller.addUser2)
+router.post('/addUser', controller.addUser)
 
 router.post('/deleteUser', controller.deleteUser)
 
