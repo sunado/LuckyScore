@@ -37,7 +37,7 @@ exports.filter = function (req, res, next) {
 
         }
     }
-};
+}
 
 //
 exports.authenticate = async (req,res,next) => {
@@ -196,92 +196,56 @@ exports.adminUsers = async (req,res,next) => {
 //
 exports.adminDashboard = async (req,res,next) => {
     try {
-        let vote_now = await VoteList.find().limit(1).sort({$natural:-1}).exec()
+        let votes = await VoteList.find().exec()
+        var num = votes.length - 1
 
-        if(vote_now.length == 0){
-            res.render('admin/blank',{message: "Nodata"})
-        } else {
-            let result = await UserModel.find({votes: {$elemMatch: {name: vote_now[0].id}}}).exec()
-
-            var user_votes = []
-            var stastic = [
-                {name: "Trình bày (30%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
-                {name: "Nội dung (35%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
-                {name: "Hình thức (20%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
-                {name: "Phản biện (15%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
-                {name: "W Trung bình:", A: 0, B: 0, C: 0, D: 0, Sum: 0}
-            ]
-
-            result.forEach(element => {
-                const vote = element.votes[element.votes.length-1]
-                const user_vote = {
-                    id: element.id,
-                    TC1: score2String(vote.TC1),
-                    TC2: score2String(vote.TC2),
-                    TC3: score2String(vote.TC3),
-                    TC4: score2String(vote.TC4),
-                    count: vote.count
-                }
-                
-                user_votes.push(user_vote)
-
-                countHelper(0,vote.TC1,stastic)
-                countHelper(1,vote.TC2,stastic)
-                countHelper(2,vote.TC3,stastic)
-                countHelper(3,vote.TC4,stastic)
-
-            })
-            
-            calHelper(stastic)
-
-            res.render('admin/dashboard',{title: vote_now[0].name, users: user_votes, dats: stastic})
+        if(req.params && req.params.num){
+            num = parseInt(req.params.num)
         }
+        //console.log(votes)
+        if(votes.length <= num) {
+            throw "Out of array"
+        }
+        let vote_ = votes[num]        
+        let result = await UserModel.find({votes: {$elemMatch: {name: vote_.id}}}).exec()
+        var user_votes = []
+        var stastic = [
+            {name: "Trình bày (30%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+            {name: "Nội dung (35%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+            {name: "Hình thức (20%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+            {name: "Phản biện (15%)", A: 0, B: 0, C: 0, D: 0, Sum: ''},
+            {name: "W Trung bình:", A: 0, B: 0, C: 0, D: 0, Sum: 0}
+        ]
+
+        result.forEach(element => {
+            const vote = element.votes[element.votes.length-1]
+            const user_vote = {
+                id: element.id,
+                TC1: score2String(vote.TC1),
+                TC2: score2String(vote.TC2),
+                TC3: score2String(vote.TC3),
+                TC4: score2String(vote.TC4),
+                count: vote.count
+            }
+            
+            user_votes.push(user_vote)
+
+            countHelper(0,vote.TC1,stastic)
+            countHelper(1,vote.TC2,stastic)
+            countHelper(2,vote.TC3,stastic)
+            countHelper(3,vote.TC4,stastic)
+
+        })
+        
+        calHelper(stastic)
+
+        res.render('admin/dashboard',{title: vote_.name, users: user_votes, dats: stastic, votes: votes})
+        
     } catch (e) {
         console.log(e)
         res.render('admin/blank',{message: e})
     }
     
-}
-
-//
-function score2String(score) {
-    switch(score) {
-        case 4: return 'A'
-        case 3: return 'B'
-        case 2: return 'C'
-        case 1: return 'D'
-        default: return '?'
-    }
-}
-//
-function countHelper(index, score, stastic) {
-    switch(score) {
-        case 4:
-            stastic[index].A = stastic[index].A + 1
-            break
-        case 3:
-            stastic[index].B = stastic[index].B + 1
-            break
-        case 2: 
-            stastic[index].C = stastic[index].C + 1
-            break
-        case 1: 
-            stastic[index].D = stastic[index].D + 1
-            break
-    }
-}
-//
-function calHelper(stastic) {
-    const weights = [30 ,35 ,20 ,15]
-    stastic[4].A = (stastic[0].A*weights[0] + stastic[1].A*weights[1] + stastic[2].A*weights[2] + stastic[3].A*weights[3])/100 
-    stastic[4].B = (stastic[0].B*weights[0] + stastic[1].B*weights[1] + stastic[2].B*weights[2] + stastic[3].B*weights[3])/100 
-    stastic[4].C = (stastic[0].C*weights[0] + stastic[1].C*weights[1] + stastic[2].C*weights[2] + stastic[3].C*weights[3])/100 
-    stastic[4].D = (stastic[0].D*weights[0] + stastic[1].D*weights[1] + stastic[2].D*weights[2] + stastic[3].D*weights[3])/100 
-
-
-    stastic.forEach(element => {
-        element.Sum = element.A*4 + element.B*3 + element.C*2 + element.D
-    })
 }
 
 //
@@ -313,6 +277,32 @@ exports.adminGetVoteData = async (req,res,next) => {
         res.json({})
     }
 }
+
+exports.adminUnattend = async (req,res, next) => {
+    try {
+
+        let votes = await VoteList.find().exec()
+        var num = votes.length - 1
+
+        if(req.params && req.params.num){
+            num = parseInt(req.params.num)
+        }
+        //console.log(votes)
+        if(votes.length <= num) {
+            throw "Out of array"
+        }
+        let vote = votes[num]
+       // console.log(vote)
+        let users = await UserModel.find({votes: {$not: {$elemMatch: {name:  vote.id }}}}).exec()
+        //console.log(vote)
+        //console.log("==================")
+        res.render('admin/unattend',{users: users, votes: votes, title: vote.name})
+    }catch(e) {
+        console.log(e)
+        res.render('admin/blank',{err: e})
+    }
+}
+
 //
 exports.adminStatus = async(req,res,next) => {
     try {
@@ -380,34 +370,6 @@ exports.adminUpdateStatus = async (req,res,next) => {
 }
 
 //
-exports.adminCreate_old = function(req,res,next) {
-    AdminModel.findOne({
-        id: req.body.username
-    }, function(err,user){
-        if(err){
-            res.render('createadmin',{error: err})
-        }
-
-        if(user){
-            res.render('createadmin',{error: "User exist. Please add other user."})
-        } else {
-            var n = new AdminModel({
-                username: req.body.username,
-                passwd: req.body.passwd
-            })
-
-            n.save( (err) => {
-                if (err) {
-                    res.render('createadmin',{error: "Cannot save user. Please try again later. "})
-                }
-
-                res.render('createadmin',{success: "Success! Addmin added. "})
-            })
-        }
-    })
-}
-
-//
 exports.adminCreate = async(req,res,next) => {
     try {
         let user = await AdminModel.findOne({id: req.body.username}).exec()
@@ -429,6 +391,7 @@ exports.adminCreate = async(req,res,next) => {
     }
 }
 
+/* Utils */
 //
 function validate(num){
     if(isNaN(num) || num > 4 || num < 1) {
@@ -436,4 +399,44 @@ function validate(num){
     } else {
         return true;
     }
+}
+//
+function score2String(score) {
+    switch(score) {
+        case 4: return 'A'
+        case 3: return 'B'
+        case 2: return 'C'
+        case 1: return 'D'
+        default: return '?'
+    }
+}
+//
+function countHelper(index, score, stastic) {
+    switch(score) {
+        case 4:
+            stastic[index].A = stastic[index].A + 1
+            break
+        case 3:
+            stastic[index].B = stastic[index].B + 1
+            break
+        case 2: 
+            stastic[index].C = stastic[index].C + 1
+            break
+        case 1: 
+            stastic[index].D = stastic[index].D + 1
+            break
+    }
+}
+//
+function calHelper(stastic) {
+    const weights = [30 ,35 ,20 ,15]
+    stastic[4].A = (stastic[0].A*weights[0] + stastic[1].A*weights[1] + stastic[2].A*weights[2] + stastic[3].A*weights[3])/100 
+    stastic[4].B = (stastic[0].B*weights[0] + stastic[1].B*weights[1] + stastic[2].B*weights[2] + stastic[3].B*weights[3])/100 
+    stastic[4].C = (stastic[0].C*weights[0] + stastic[1].C*weights[1] + stastic[2].C*weights[2] + stastic[3].C*weights[3])/100 
+    stastic[4].D = (stastic[0].D*weights[0] + stastic[1].D*weights[1] + stastic[2].D*weights[2] + stastic[3].D*weights[3])/100 
+
+
+    stastic.forEach(element => {
+        element.Sum = element.A*4 + element.B*3 + element.C*2 + element.D
+    })
 }

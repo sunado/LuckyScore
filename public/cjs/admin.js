@@ -164,7 +164,16 @@ $(document).ajaxStop( () => {
                         var myLineChart4 = new Chart(ctx4,chart4_config);
                     })
     
-                    $('.ui.dropdown').dropdown();
+                    $('.ui.dropdown').dropdown({
+                        onChange: (val) => {
+                            $.get('admin/dashboard/'+ val).done( (res) =>{
+                                $('#container').empty()
+                                $('#container').append(res)
+                                $('.table').DataTable()
+                                subView = 'dashboard' /*** */
+                            })
+                        }
+                    });
                 }
                 
                 break;
@@ -173,6 +182,20 @@ $(document).ajaxStop( () => {
                 break;
             case "status":
                 //console.log("s")
+                break;
+            case "unattend":
+                {
+                    $('.ui.dropdown').dropdown({
+                        onChange: (val) => {
+                            $.get('admin/unattend/'+val).done( (res) =>{
+                                $('#container').empty()
+                                $('#container').append(res)
+                                $('.table').DataTable()
+                                subView = 'unattend' /*** */
+                            })
+                        }
+                    })
+                }
                 break;
         }
     } else {
