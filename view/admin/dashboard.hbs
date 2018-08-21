@@ -5,7 +5,21 @@
         </li>
     </ol>
 
-    <div class="row justify-content-center">
+    <div class="row top-buffer justify-content-center">
+        <div class="ui fluid search selection dropdown col col-md-3">
+            <input type="hidden" name="user" id="user-id">
+            <i class="dropdown icon"></i>
+            <div class="default text">{{title}}</div>
+            <div class="menu">
+            {{#each votes as |vote voteId| }}
+                {{!-- <option data-value="{{user.id}}">{{user.name}}</option> --}}
+                <div class="item" data-value="{{voteId}}">{{vote.name}}</div>
+            {{/each}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center" style="margin-top: 1em">
         <div class="col col-lg-10 ">
             <div class="card mb-3">
                 <div class="card-header">
@@ -105,7 +119,7 @@
     </div>
     
     <div class="row justify-content-center">
-        <div class="col col-lg-6 ">
+        <div class="col col-lg-5 ">
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-chart-bar"></i>
@@ -116,10 +130,7 @@
                 <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
         </div>
-    </div>
-
-    <div class="row justify-content-center">
-        <div class="col col-lg-6 ">
+        <div class="col col-lg-5 ">
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-chart-bar"></i>
@@ -133,7 +144,7 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col col-lg-6 ">
+        <div class="col col-lg-5 ">
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-chart-bar"></i>
@@ -144,10 +155,7 @@
                 <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
         </div>
-    </div>
-
-    <div class="row justify-content-center">
-        <div class="col col-lg-6 ">
+        <div class="col col-lg-5 ">
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-chart-bar"></i>

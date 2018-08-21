@@ -17,6 +17,12 @@ router.get('/admin/users', controller.adminUsers)
 
 router.get('/admin/dashboard', controller.adminDashboard)
 
+router.get('/admin/dashboard/:num', controller.adminDashboard)
+
+router.get('/admin/unattend', controller.adminUnattend)
+
+router.get('/admin/unattend/:num', controller.adminUnattend)
+
 router.get('/admin/status',controller.adminStatus)
 
 router.get('/admin/votedata', controller.adminGetVoteData)
